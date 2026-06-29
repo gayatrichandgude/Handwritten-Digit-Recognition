@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<form action="/login" method="post" class="form-box">
+
+    <h2><i class="fa-solid fa-right-to-bracket"></i> Login</h2>
+    <p class="tagline">Login to continue 🚀</p>
+
+    
+    <!-- EMAIL -->
+    <div class="input-box">
+        <i class="fa fa-envelope"></i>
+        <input name="email" type="email" placeholder="Enter Email" required oninput="loadUserPhoto(this.value)">
+    </div>
+
+    <!-- PASSWORD -->
+    <div class="input-box">
+        <i class="fa fa-lock"></i>
+        <input id="password" name="password" type="password" placeholder="Enter Password" required>
+        <i class="fa fa-eye toggle-pass" onclick="togglePassword()"></i>
+    </div>
+
+    <button type="submit">Login</button>
+    <p class="link-text">
+    <a href="/forgot_password">Forgot Password?</a>
+</p>
+
+<p class="link-text">
+    Don't have an account? <a href="/register">Register</a>
+</p>
+
+
+</form>
+
+</div>
+
+<script>
+function togglePassword() {
+    var x = document.getElementById("password");
+    x.type = (x.type === "password") ? "text" : "password";
+}
+
+/* 🔥 AUTO LOAD USER PHOTO */
+async function loadUserPhoto(email){
+    if(email.length < 3) return;
+
+    let res = await fetch('/get_user_photo?email=' + email);
+    let data = await res.json();
+
+    if(data.photo){
+        document.getElementById('preview').src = '/static/uploads/' + data.photo;
+    }
+}
+</script>
+
+</body>
+</html>

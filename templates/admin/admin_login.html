@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Login - AI Digit Recognition</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <form action="/admin_login" method="post" class="form-box">
+
+        <h2><i class="fa-solid fa-user-shield"></i> Admin Login</h2>
+        <p class="tagline">Secure access only 🔐</p>
+
+        <!-- ❌ ERROR MESSAGE REMOVED -->
+
+        <!-- USERNAME -->
+        <div class="input-box">
+            <i class="fa fa-user"></i>
+            <input type="text" name="username" placeholder="Enter Username" required>
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="input-box">
+            <i class="fa fa-lock"></i>
+            <input type="password" id="password" name="password" placeholder="Enter Password" required>
+            <i class="fa fa-eye toggle-pass" onclick="togglePassword()"></i>
+        </div>
+
+        <!-- LOGIN BUTTON -->
+        <button type="submit">Login</button>
+
+        <!-- ✅ NEW FOOTER LINE -->
+        <p class="footer-text">© 2026 Admin Panel</p>
+
+        <!-- BACK BUTTON -->
+        <a href="/" class="back-btn">
+            <i class="fa fa-arrow-left"></i> Back to Home
+        </a>
+
+    </form>
+
+</div>
+
+<script>
+function togglePassword() {
+    var x = document.getElementById("password");
+    var icon = document.querySelector(".toggle-pass");
+
+    if (x.type === "password") {
+        x.type = "text";
+        icon.classList.replace("fa-eye", "fa-eye-slash");
+    } else {
+        x.type = "password";
+        icon.classList.replace("fa-eye-slash", "fa-eye");
+    }
+}
+</script>
+
+</body>
+</html>

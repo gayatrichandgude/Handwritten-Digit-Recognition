@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction History</title>
+    
+    <style>
+        body{
+    margin:0;
+    padding:20px;
+    font-family:'Poppins',sans-serif;
+    background:#f8fafc;
+    color:#1e293b;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar{
+    background:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 35px;
+    border-radius:20px;
+    box-shadow:0 5px 25px rgba(0,0,0,0.08);
+    margin-bottom:30px;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:700;
+    background:linear-gradient(135deg,#2563eb,#8b5cf6,#ec4899);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+
+.navbar a:hover{
+    transform:translateY(-3px);
+}
+
+/* =========================
+   TABLE CONTAINER
+========================= */
+
+.table-container{
+    max-width:95%;
+    margin:auto;
+    overflow-x:auto;
+    background:white;
+    padding:20px;
+    border-radius:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   TABLE
+========================= */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:800px;
+}
+
+th{
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+    color:white;
+    padding:15px;
+    font-size:15px;
+}
+
+td{
+    padding:15px;
+    text-align:center;
+    border-bottom:1px solid #e2e8f0;
+}
+
+tr:hover{
+    background:#f1f5f9;
+}
+
+/* =========================
+   IMAGE
+========================= */
+
+img{
+    width:60px;
+    height:60px;
+    border-radius:12px;
+    object-fit:cover;
+    border:2px solid #e2e8f0;
+}
+
+/* =========================
+   AUDIO
+========================= */
+
+audio{
+    width:180px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn{
+    border:none;
+    padding:10px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    color:white;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.download{
+    background:linear-gradient(135deg,#10b981,#34d399);
+}
+
+.delete{
+    background:linear-gradient(135deg,#ef4444,#f87171);
+}
+
+.btn:hover{
+    transform:translateY(-3px);
+}
+
+/* =========================
+   EMPTY DATA
+========================= */
+
+.empty{
+    text-align:center;
+    margin-top:80px;
+    font-size:24px;
+    color:#64748b;
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 5px 25px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+    .navbar{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .logo{
+        font-size:22px;
+    }
+
+}
+
+.back-icon{
+    width:45px;
+    height:45px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:white;
+    color:#2563eb;
+    text-decoration:none;
+    font-size:22px;
+    font-weight:bold;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.back-icon:hover{
+    transform:translateY(-3px) scale(1.05);
+    box-shadow:0 10px 20px rgba(37,99,235,0.25);
+}
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <div></div> <!-- left empty -->
+    <div class="logo">📜 Prediction History</div>
+    <a href="/dashboard" class="back-icon">
+    ←
+</a>
+</div>
+
+<div class="table-container">
+{% if data %}
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Type</th>
+        <th>Image</th>
+        <th>Digit</th>
+        <th>Confidence</th>
+        <th>Date</th>
+        <th>Action</th>
+    </tr>
+
+    {% for row in data %}
+    <tr>
+    <td>{{ loop.index }}</td>  <!-- 🔹 ID बदला 1 पासून क्रमांकासाठी -->
+    <td>
+        {% if row.prediction_type == 'upload' %}
+            🖼️ Upload
+        {% elif row.prediction_type == 'draw' %}
+            ✍️ Draw
+        {% elif row.prediction_type == 'voice' %}
+            🎤 Voice
+        {% else %}
+            ❓ Unknown
+        {% endif %}
+    </td>
+  <td>
+{% if row.prediction_type == 'voice' and row.image_path %}
+
+<audio controls style="width:250px;">
+    <source src="/static/uploads/recording_2_converted.wav" type="audio/wav">
+</audio>
+
+{% elif row.image_path %}
+    <img src="{{ url_for('static', filename='uploads/' + row.image_path.split('/')[-1]) }}">
+{% else %}
+    No File
+{% endif %}
+</td>
+    <td>{{ row.predicted_digit }}</td>
+    <td>{{ row.confidence }}</td>
+    <td>{{ row.created_at }}</td>
+<td>
+    {% if row.image_path %}
+        <a href="/download/{{ row.image_path.split('/')[-1] }}">
+            <button class="btn download">⬇ Download</button>
+        </a>
+    {% endif %}
+    <a href="/delete/{{ row.id }}">
+        <button class="btn delete">🗑️ Delete</button>
+    </a>
+</td>
+</tr>
+    {% endfor %}
+</table>
+{% else %}
+<div class="empty">
+    😔 No Predictions Yet
+</div>
+{% endif %}
+</div>
+
+</body>
+</html>

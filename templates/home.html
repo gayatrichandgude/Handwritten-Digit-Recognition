@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>AI Digit Recognition</title>
+
+    <!-- 🔹 Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+
+    <!-- 🔹 CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+
+    <!-- 🔹 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+<!-- 🔷 NAVBAR -->
+<div class="navbar">
+
+    <!-- 🔹 TITLE + ICON -->
+    <div class="logo-section">
+        <i class="fa-solid fa-brain logo-icon"></i>
+        <h2>AI Digit Recognition</h2>
+    </div>
+
+    <!-- 🔹 NAV LINKS -->
+    <div class="nav-links">
+
+        <a href="/"><i class="fa fa-home"></i> Home</a>
+        <a href="/register"><i class="fa fa-user-plus"></i> Register</a>
+        <a href="/login_page"><i class="fa fa-sign-in-alt"></i> Login</a>
+
+        <!-- 🔹 HIDDEN ADMIN -->
+        <div class="admin-dropdown">
+    <i class="fa fa-ellipsis-v" onclick="toggleAdmin()"></i>
+
+    <div id="adminMenu" class="admin-menu">
+        <a href="/admin">
+            <i class="fa fa-user-shield"></i>
+            Admin Login
+        </a>
+    </div>
+</div>
+
+    </div>
+</div>
+
+<!-- 🔷 HERO -->
+<div class="hero">
+
+    <!-- LEFT -->
+    <div class="left">
+        <h1>AI Handwritten <br> Digit Recognition</h1>
+
+        <p>
+            Recognize handwritten digits using Deep Learning (CNN).
+            Fast, accurate and intelligent predictions.
+        </p>
+
+        <div class="buttons">
+            <a href="/register"><button class="primary">🚀 Get Started</button></a>
+            
+        </div>
+
+        <!-- STATS -->
+        <div class="stats">
+            <div class="box glow">
+                <h3>🤖 Model</h3>
+                <p>CNN</p>
+            </div>
+
+            <div class="box glow">
+                <h3>⚡ Speed</h3>
+                <p>Instant</p>
+            </div>
+
+            <div class="box glow">
+                <h3>🎯 Accuracy</h3>
+                <p>95%+</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT (NEW UI) -->
+    <div class="right">
+
+        <div class="ai-box">
+            <h2>🤖 Smart AI System</h2>
+            <p>Recognizes handwritten digits instantly</p>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature">⚡ Fast Prediction</div>
+            <div class="feature">🎯 High Accuracy</div>
+            <div class="feature">🧠 Deep Learning</div>
+            <div class="feature">📊 Real-time Results</div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 🔻 FOOTER -->
+<footer class="footer">
+    <h3>AI Digit Recognition</h3>
+    <p>Deep Learning based handwritten digit recognition system.</p>
+    <p>© 2026 | Developed by Gayatri</p>
+</footer>
+
+<!-- 🔷 SCRIPT -->
+<script>
+function toggleAdmin(){
+    let menu = document.getElementById("adminMenu");
+    menu.style.display = (menu.style.display === "block") ? "none" : "block";
+}
+</script>
+
+</body>
+</html>

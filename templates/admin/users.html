@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin - Users</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f4f7fc;
+    color:#1e293b;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    background:#fff;
+    padding:25px;
+    border-right:1px solid #e2e8f0;
+    box-shadow:0 0 20px rgba(0,0,0,.05);
+}
+
+.sidebar h2{
+    text-align:center;
+    color:#2563eb;
+    margin-bottom:35px;
+}
+
+.sidebar a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+    color:#475569;
+    padding:14px 16px;
+    margin-bottom:10px;
+    border-radius:12px;
+    transition:.3s;
+}
+
+.sidebar a:hover{
+    background:#eff6ff;
+    color:#2563eb;
+}
+
+.sidebar a.active{
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+    color:white;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:260px;
+    padding:30px;
+}
+
+/* HEADER */
+
+.users-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.users-header h1{
+    font-size:32px;
+    color:#1e293b;
+}
+
+.user-count{
+    background:linear-gradient(135deg,#3b82f6,#2563eb);
+    color:white;
+    padding:12px 20px;
+    border-radius:12px;
+    font-weight:600;
+}
+
+/* SEARCH */
+
+.search-box{
+    margin-bottom:25px;
+}
+
+.search-box input{
+    width:100%;
+    max-width:450px;
+    padding:14px 18px;
+    border:2px solid #e2e8f0;
+    border-radius:12px;
+    font-size:15px;
+}
+
+.search-box input:focus{
+    outline:none;
+    border-color:#3b82f6;
+}
+
+/* TABLE */
+
+.table-container{
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+thead{
+    background:linear-gradient(135deg,#3b82f6,#2563eb);
+}
+
+thead th{
+    color:white;
+    padding:16px;
+    text-align:center;
+}
+
+tbody td{
+    padding:16px;
+    text-align:center;
+    border-bottom:1px solid #e2e8f0;
+}
+
+tbody tr:hover{
+    background:#f8fafc;
+}
+
+/* BUTTONS */
+
+.btn-view{
+    background:linear-gradient(135deg,#3b82f6,#2563eb);
+    color:white;
+    border:none;
+    padding:10px 16px;
+    border-radius:10px;
+    cursor:pointer;
+    margin-right:5px;
+}
+
+.btn-delete{
+    background:linear-gradient(135deg,#ef4444,#dc2626);
+    color:white;
+    border:none;
+    padding:10px 16px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.btn-view:hover,
+.btn-delete:hover{
+    transform:translateY(-2px);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .sidebar{
+        width:80px;
+    }
+
+    .sidebar h2{
+        display:none;
+    }
+
+    .sidebar a{
+        justify-content:center;
+        font-size:0;
+    }
+
+    .sidebar a i{
+        font-size:18px;
+    }
+
+    .main{
+        margin-left:80px;
+    }
+
+    .users-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+    }
+
+    .table-container{
+        overflow-x:auto;
+    }
+
+    table{
+        min-width:700px;
+    }
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+    <h2>🛠 Admin</h2>
+
+    <a href="{{ url_for('admin_dashboard') }}">
+        <i class="fa-solid fa-chart-line"></i> Dashboard
+    </a>
+
+    <a href="{{ url_for('admin_users') }}" class="active">
+        <i class="fa-solid fa-users"></i> Users
+    </a>
+
+
+    <a href="{{ url_for('admin_logout') }}">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+    </a>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+    <div class="users-header">
+
+        <h1>👥 Users Management</h1>
+
+        <div class="user-count">
+            Total Users : {{ users|length }}
+        </div>
+
+    </div>
+
+    <div class="search-box">
+        <input type="text"
+               id="searchInput"
+               placeholder="🔍 Search by Name, Email or ID">
+    </div>
+
+    <div class="table-container">
+
+        <table id="userTable">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Joined</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for u in users %}
+
+                <tr>
+
+                    <td>{{ u.id }}</td>
+                    <td>{{ u.name }}</td>
+                    <td>{{ u.email }}</td>
+                    <td>{{ u.created_at }}</td>
+
+                    <td>
+
+                        <a href="{{ url_for('view_user', user_id=u.id) }}">
+                            <button class="btn-view">
+                                <i class="fa fa-eye"></i> View
+                            </button>
+                        </a>
+
+                        <button class="btn-delete"
+                        onclick="deleteUser({{ u.id }}, '{{ u.name }}')">
+
+                            <i class="fa fa-trash"></i> Delete
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+let input = document.getElementById("searchInput");
+
+input.addEventListener("keyup", function(){
+
+    let filter = input.value.toLowerCase();
+
+    let rows = document.querySelectorAll("#userTable tbody tr");
+
+    rows.forEach((row)=>{
+
+        let text = row.innerText.toLowerCase();
+
+        row.style.display =
+        text.includes(filter) ? "" : "none";
+
+    });
+
+});
+
+async function deleteUser(userId,userName){
+
+    if(confirm(`Delete "${userName}" and all predictions?`)){
+
+        try{
+
+            let res = await fetch(`/admin/delete_user/${userId}`,{
+                method:"POST"
+            });
+
+            let data = await res.json();
+
+            if(data.success){
+                alert("User deleted successfully");
+                location.reload();
+            }else{
+                alert(data.error || "Error deleting user");
+            }
+
+        }catch(err){
+            alert(err.message);
+        }
+    }
+}
+
+</script>
+
+</body>
+</html>

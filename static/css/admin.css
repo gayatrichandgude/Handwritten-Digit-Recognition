@@ -1,0 +1,197 @@
+/* =========================
+   GLOBAL
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: #f8fafc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #1e293b;
+}
+
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+
+/* =========================
+   ADMIN FORM
+========================= */
+
+.form-box {
+    width: 420px;
+    background: white;
+    padding: 40px;
+    border-radius: 25px;
+    text-align: center;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, .08);
+}
+
+
+/* =========================
+   TITLE
+========================= */
+
+.form-box h2 {
+    color: #2563eb;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.form-box h2 i {
+    margin-right: 8px;
+}
+
+.tagline {
+    color: #64748b;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+
+/* =========================
+   INPUTS
+========================= */
+
+.input-box {
+    position: relative;
+    margin-bottom: 18px;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 14px 45px;
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    outline: none;
+    font-size: 15px;
+    color: #1e293b;
+    transition: .3s;
+}
+
+.input-box input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, .15);
+}
+
+.input-box .fa-user,
+.input-box .fa-lock {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #2563eb;
+}
+
+.toggle-pass {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #64748b;
+}
+
+.toggle-pass:hover {
+    color: #2563eb;
+}
+
+
+/* =========================
+   LOGIN BUTTON
+========================= */
+
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .3s;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(37, 99, 235, .25);
+}
+
+
+/* =========================
+   FOOTER TEXT
+========================= */
+
+.footer-text {
+    margin-top: 18px;
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+.back-btn {
+    display: block;
+    margin-top: 18px;
+    text-decoration: none;
+    color: #2563eb;
+    font-weight: 600;
+    transition: .3s;
+}
+
+.back-btn:hover {
+    color: #1d4ed8;
+}
+
+
+/* =========================
+   ERROR BOX
+========================= */
+
+.error-box {
+    background: #dc2626;
+    color: white;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:500px) {
+    .form-box {
+        width: 100%;
+        padding: 30px 20px;
+    }
+    .form-box h2 {
+        font-size: 24px;
+    }
+}

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Predict Digit</title>
+    
+    <style>
+
+body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background:#f8fafc;
+    color:#1e293b;
+}
+
+.navbar{
+    background:rgba(255,255,255,0.95);
+    backdrop-filter:blur(15px);
+    padding:18px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid #e2e8f0;
+    box-shadow:0 8px 25px rgba(0,0,0,0.08);
+}
+
+.title{
+    font-size:26px;
+    font-weight:700;
+    background:linear-gradient(135deg,#2563eb,#8b5cf6,#ec4899);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.navbar button{
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+input[type="file"]{
+    width:100%;
+    padding:10px;
+    background:white;
+    border-radius:10px;
+    color:#1e293b;
+}
+
+canvas{
+    background:white;
+    border-radius:15px;
+    border:4px solid rgba(255,255,255,0.5);
+}
+
+#result{
+    text-align:center;
+    font-size:24px;
+    font-weight:700;
+    margin-bottom:40px;
+    color:#2563eb;
+}
+
+.user-dropdown{
+            position: relative;
+            display: inline-block;
+}
+
+.user-dropdown button{
+            background:#22c55e;
+            padding:8px 15px;
+            border-radius:20px;
+            border:none;
+            color:white;
+            cursor:pointer;
+}
+
+.user-dropdown-content{
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #1e293b;
+            min-width: 120px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+            border-radius:10px;
+            z-index:1;
+}
+
+.user-dropdown-content a{
+            color:white;
+            padding:10px 15px;
+            text-decoration:none;
+            display:block;
+}
+
+.user-dropdown-content a:hover{
+            background-color:#22c55e;
+}
+
+.user-dropdown:hover .user-dropdown-content{
+            display:block;
+}
+
+.main-title{
+    text-align:center;
+    margin-top:40px;
+    font-size:38px;
+    font-weight:700;
+    color:#1e293b;
+}
+.container{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:30px;
+    max-width:1200px;
+    margin:50px auto;
+    padding:20px;
+}
+
+.box{
+    position:relative;
+    overflow:hidden;
+    padding:30px;
+    border-radius:25px;
+    text-align:center;
+    color:white;
+    min-height:300px;
+
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,0.3);
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,0.15),
+    0 0 30px rgba(255,255,255,0.15);
+
+    transition:0.4s ease;
+}
+
+.box:hover{
+    transform:translateY(-12px) scale(1.03);
+}
+.box button{
+    background:white;
+    color:#1e293b;
+    border:none;
+    padding:12px;
+    border-radius:12px;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.box button:hover{
+    transform:scale(1.05);
+}
+        .box h3{
+            margin-bottom:15px;
+        }
+
+        button{
+            margin-top:10px;
+            padding:8px 12px;
+            width:100%;
+            background:#22c55e;
+            border:none;
+            color:white;
+            border-radius:8px;
+            cursor:pointer;
+        }
+
+        canvas{
+            background:white;
+            margin-top:10px;
+            cursor:crosshair;
+        }
+    .box:nth-child(1){
+    background:linear-gradient(135deg,#3b82f6,#60a5fa);
+}
+
+.box:nth-child(2){
+    background:linear-gradient(135deg,#8b5cf6,#a78bfa);
+}
+
+.box:nth-child(3){
+    background:linear-gradient(135deg,#10b981,#34d399);
+}
+
+.box::before{
+    content:"";
+    position:absolute;
+    top:-100%;
+    left:-100%;
+    width:200%;
+    height:200%;
+    background:linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.4),
+        transparent
+    );
+    transform:rotate(25deg);
+    transition:0.8s;
+}
+
+.box:hover::before{
+    top:100%;
+    left:100%;
+}
+
+.back-icon{
+    width:45px;
+    height:45px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:white;
+    color:#2563eb;
+    text-decoration:none;
+    font-size:22px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+@media screen and (max-width:900px){
+            .container{
+                grid-template-columns:1fr;
+            }
+}
+
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    
+    <div class="title">🕵️‍♂️ Digit Detective </div>
+    <a href="/dashboard" class="back-icon">
+    ←
+</a>
+</div>
+
+<div class="main-title">Predict Your Digit</div>
+
+<div class="container">
+    <!-- Upload -->
+    <div class="box">
+        <h3>📤 Upload Image</h3>
+        <input type="file" id="file">
+        <button onclick="upload()">Predict</button>
+    </div>
+
+    <!-- Draw -->
+    <div class="box">
+    <h3>✍ Draw Digit</h3>
+    <canvas id="canvas" width="200" height="200"></canvas>
+    <button onclick="predictCanvas()">Predict</button>
+    <button onclick="clearCanvas()">Clear</button>
+</div>
+
+    <!-- Voice -->
+    <div class="box">
+        <h3>🎤 Voice Input</h3>
+        <div id="voiceStatus" style="font-size: 12px; color: #cbd5f5; margin: 5px 0;">Ready</div>
+        <button id="startBtn" onclick="startRecording()" style="background: #22c55e;">Start Recording</button>
+        <button id="stopBtn" onclick="stopRecording()" style="background: #ef4444; display: none;">Stop Recording</button>
+    </div>
+</div>
+
+<h3 id="result" style="text-align:center;"></h3>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+// Initialize canvas with white background
+ctx.fillStyle = "white";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+// Brush settings
+ctx.strokeStyle = "black";
+ctx.lineWidth = 15;
+ctx.lineCap = "round";
+
+let drawing = false;
+
+// Drawing events
+canvas.onmousedown = () => drawing = true;
+canvas.onmouseup = () => { drawing = false; ctx.beginPath(); };
+canvas.onmouseleave = () => { drawing = false; ctx.beginPath(); };
+
+canvas.onmousemove = (e) => {
+    if(!drawing) return;
+    const rect = canvas.getBoundingClientRect();
+    ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+}
+
+// Clear canvas
+function clearCanvas(){
+    ctx.fillStyle = "white";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = "black";
+    ctx.beginPath();
+}
+
+// Predict from canvas
+function predictCanvas(){
+    let tmpCanvas = document.createElement('canvas');
+    tmpCanvas.width = 28;
+    tmpCanvas.height = 28;
+    let tmpCtx = tmpCanvas.getContext('2d');
+
+    tmpCtx.drawImage(canvas, 0, 0, 28, 28);
+
+    let dataURL = tmpCanvas.toDataURL();
+
+    fetch("/predict_canvas", {
+        method:"POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({image: dataURL})
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("result").innerText =
+        "Digit: "+data.digit+" | Confidence: "+data.confidence+"%";
+    });
+}
+
+// Upload image
+function upload(){
+    let file = document.getElementById("file").files[0];
+    if(!file){
+        alert("Please select a file");
+        return;
+    }
+    let formData = new FormData();
+    formData.append("image", file);
+
+    fetch("/predict", {method:"POST", body:formData})
+    .then(res=>res.json())
+    .then(data=>{
+        document.getElementById("result").innerText =
+        "Digit: "+data.digit+" | Confidence: "+data.confidence+"%";
+    });
+}
+
+// Voice recording variables
+let mediaRecorder;
+let audioChunks = [];
+let recordingStartTime;
+let recordingTimer;
+
+// Start recording
+async function startRecording(){
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+        const options = { mimeType: 'audio/webm' };
+
+        if (MediaRecorder.isTypeSupported(options.mimeType)) {
+            mediaRecorder = new MediaRecorder(stream, options);
+        } else {
+            mediaRecorder = new MediaRecorder(stream);
+        }
+
+        audioChunks = [];
+
+        mediaRecorder.ondataavailable = (event) => {
+            audioChunks.push(event.data);
+        };
+
+        mediaRecorder.onstop = () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+            sendAudioToBackend(audioBlob);
+        };
+
+        mediaRecorder.start();
+
+        document.getElementById("startBtn").style.display = "none";
+        document.getElementById("stopBtn").style.display = "block";
+        document.getElementById("voiceStatus").innerText = "🔴 Recording...";
+
+    } catch (err) {
+        alert("Mic error: " + err.message);
+        console.error(err);
+    }
+}
+
+// Stop recording
+function stopRecording(){
+    if (mediaRecorder && mediaRecorder.state !== "inactive") {
+        mediaRecorder.stop();
+        
+        // Stop the audio stream
+        mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        
+        // Clear timer
+        clearInterval(recordingTimer);
+        
+        // Update UI
+        document.getElementById("startBtn").style.display = "block";
+        document.getElementById("stopBtn").style.display = "none";
+        document.getElementById("voiceStatus").innerText = "Processing...";
+        document.getElementById("voiceStatus").style.color = "#f59e0b";
+    }
+}
+
+// Send audio to backend
+function sendAudioToBackend(audioBlob){
+    console.log("Sending audio blob, size:", audioBlob.size);
+    
+    let formData = new FormData();
+    formData.append("voice", audioBlob, "recording.webm");
+    
+    fetch("/predict_voice", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => {
+        console.log("Response status:", res.status);
+        return res.json();
+    })
+    .then(data => {
+        console.log("Received data:", data);
+        if(data.error) {
+            document.getElementById("result").innerText = "Error: " + data.error;
+            document.getElementById("voiceStatus").innerText = "Ready";
+            document.getElementById("voiceStatus").style.color = "#cbd5f5";
+        } else {
+            document.getElementById("result").innerText = 
+                "Digit: " + data.digit + " | Confidence: " + data.confidence + "%";
+            document.getElementById("voiceStatus").innerText = "✅ Done";
+            document.getElementById("voiceStatus").style.color = "#22c55e";
+        }
+    })
+    .catch(err => {
+        console.error("Error:", err);
+        document.getElementById("result").innerText = "Error processing voice: " + err.message;
+        document.getElementById("voiceStatus").innerText = "Ready";
+        document.getElementById("voiceStatus").style.color = "#cbd5f5";
+    });
+}
+</script>
+
+</body>
+</html>

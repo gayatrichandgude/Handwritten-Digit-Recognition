@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Reports</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f4f7fc;
+    color:#1e293b;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    background:#fff;
+    padding:25px;
+    border-right:1px solid #e2e8f0;
+    box-shadow:0 0 20px rgba(0,0,0,.05);
+}
+
+.sidebar h2{
+    text-align:center;
+    color:#2563eb;
+    margin-bottom:35px;
+}
+
+.sidebar a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+    color:#475569;
+    padding:14px 16px;
+    margin-bottom:10px;
+    border-radius:12px;
+    transition:.3s;
+}
+
+.sidebar a:hover{
+    background:#eff6ff;
+    color:#2563eb;
+}
+
+.sidebar a.active{
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+    color:white;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:260px;
+    padding:30px;
+}
+
+.page-title{
+    margin-bottom:25px;
+}
+
+.page-title h1{
+    font-size:32px;
+    font-weight:700;
+}
+
+/* CARDS */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.card{
+    padding:25px;
+    border-radius:18px;
+    color:white;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.card:nth-child(1){
+    background:linear-gradient(135deg,#3b82f6,#2563eb);
+}
+
+.card:nth-child(2){
+    background:linear-gradient(135deg,#8b5cf6,#6d28d9);
+}
+
+.card:nth-child(3){
+    background:linear-gradient(135deg,#22c55e,#16a34a);
+}
+
+.card:nth-child(4){
+    background:linear-gradient(135deg,#f97316,#ea580c);
+}
+
+.card h3{
+    font-size:15px;
+}
+
+.card h2{
+    margin-top:10px;
+    font-size:32px;
+}
+
+/* SEARCH */
+
+.search-box{
+    margin-bottom:20px;
+}
+
+.search-box input{
+    width:100%;
+    max-width:450px;
+    padding:14px 18px;
+    border:2px solid #e2e8f0;
+    border-radius:12px;
+    font-size:15px;
+}
+
+.search-box input:focus{
+    outline:none;
+    border-color:#3b82f6;
+}
+
+/* TABLE */
+
+.table-container{
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+thead{
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+}
+
+thead th{
+    color:white;
+    padding:16px;
+    text-align:center;
+}
+
+tbody td{
+    padding:15px;
+    text-align:center;
+    border-bottom:1px solid #e2e8f0;
+}
+
+tbody tr:hover{
+    background:#f8fafc;
+}
+
+td img{
+    width:60px;
+    height:60px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+audio{
+    width:140px;
+}
+
+/* PDF BUTTON */
+
+.download-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    margin-top:25px;
+    text-decoration:none;
+    color:white;
+    background:linear-gradient(135deg,#ef4444,#dc2626);
+    padding:14px 22px;
+    border-radius:12px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.download-btn:hover{
+    transform:translateY(-3px);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+.cards{
+    grid-template-columns:repeat(2,1fr);
+}
+
+.table-container{
+    overflow-x:auto;
+}
+
+table{
+    min-width:900px;
+}
+
+}
+
+@media(max-width:768px){
+
+.sidebar{
+    width:80px;
+}
+
+.sidebar h2{
+    display:none;
+}
+
+.sidebar a{
+    justify-content:center;
+    font-size:0;
+}
+
+.sidebar a i{
+    font-size:18px;
+}
+
+.main{
+    margin-left:80px;
+}
+
+.cards{
+    grid-template-columns:1fr;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <h2>🛠 Admin</h2>
+
+    <a href="{{ url_for('admin_dashboard') }}">
+        <i class="fa-solid fa-chart-line"></i> Dashboard
+    </a>
+
+    <a href="{{ url_for('admin_users') }}">
+        <i class="fa-solid fa-users"></i> Users
+    </a>
+
+    <a href="{{ url_for('admin_predictions') }}">
+        <i class="fa-solid fa-file-lines"></i> Predictions
+    </a>
+
+    <a href="{{ url_for('admin_analytics') }}">
+        <i class="fa-solid fa-chart-pie"></i> Analytics
+    </a>
+
+    <a href="{{ url_for('admin_reports_list') }}" class="active">
+        <i class="fa-solid fa-folder-open"></i> Reports
+    </a>
+
+    <a href="{{ url_for('admin_logout') }}">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+    </a>
+
+</div>
+
+<div class="main">
+
+    <div class="page-title">
+        <h1>📂 Reports</h1>
+    </div>
+
+    <!-- Cards -->
+    <div class="cards">
+        <div class="card">
+            <h3>Total Predictions</h3>
+            <h2>{{ total_predictions }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Top Digit</h3>
+            <h2>{{ top_digit }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Avg Confidence</h3>
+            <h2>{{ avg_confidence }}%</h2>
+        </div>
+
+        <div class="card">
+            <h3>Accuracy</h3>
+            <h2>{{ accuracy }}%</h2>
+        </div>
+    </div>
+
+    <!-- Search -->
+    <div class="search-box">
+        <input type="text" id="searchInput"
+        placeholder="🔍 Search by user, digit, type, date...">
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+        <div class="table-container">
+
+<table id="reportTable">
+
+<thead>
+<tr>
+    <th>ID</th>
+    <th>User</th>
+    <th>Digit</th>
+    <th>Confidence</th>
+    <th>Type</th>
+    <th>Image</th>
+    <th>Date</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for row in predictions %}
+<tr>
+
+<td>{{ row.id }}</td>
+<td>{{ row.user_name }}</td>
+<td>{{ row.predicted_digit }}</td>
+<td>{{ row.confidence }}%</td>
+<td>{{ row.prediction_type }}</td>
+
+ <td>
+{% if row.prediction_type == 'voice' and row.image_path %}
+
+<audio controls style="width:250px;">
+    <source src="/static/uploads/recording_2_converted.wav" type="audio/wav">
+</audio>
+
+{% elif row.image_path %}
+    <img src="{{ url_for('static', filename='uploads/' + row.image_path.split('/')[-1]) }}">
+{% else %}
+    No File
+{% endif %}
+</td>
+
+<td>{{ row.created_at }}</td>
+
+</tr>
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+    </div>
+
+    <a href="/admin/download_report" class="download-btn">
+        <i class="fa-solid fa-file-pdf"></i>
+        Download PDF Report
+    </a>
+
+</div>
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    let input = document.getElementById("searchInput");
+
+    input.addEventListener("keyup", function () {
+
+        let filter = this.value.toLowerCase();
+
+        let rows = document.querySelectorAll("#reportTable tbody tr");
+
+        rows.forEach(function(row) {
+
+            let text = row.textContent.toLowerCase();
+
+            if (text.includes(filter)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+
+        });
+
+    });
+
+});
+
+</script>
+</body>
+</html>

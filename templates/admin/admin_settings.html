@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Settings</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f4f7fc;
+    color:#1e293b;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    background:#fff;
+    padding:25px;
+    border-right:1px solid #e2e8f0;
+    box-shadow:0 0 20px rgba(0,0,0,.05);
+}
+
+.sidebar h2{
+    text-align:center;
+    color:#2563eb;
+    margin-bottom:35px;
+}
+
+.sidebar a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+    color:#475569;
+    padding:14px 16px;
+    margin-bottom:10px;
+    border-radius:12px;
+    transition:.3s;
+}
+
+.sidebar a:hover{
+    background:#eff6ff;
+    color:#2563eb;
+}
+
+.sidebar a.active{
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+    color:white;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:260px;
+    padding:40px;
+}
+
+.page-title{
+    font-size:32px;
+    font-weight:700;
+    margin-bottom:30px;
+}
+
+/* SETTINGS CARD */
+
+.settings-card{
+    background:white;
+    max-width:650px;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+/* ALERTS */
+
+.success-message{
+    background:#dcfce7;
+    color:#15803d;
+    padding:14px;
+    border-radius:10px;
+    margin-bottom:20px;
+    border-left:5px solid #22c55e;
+}
+
+.error-message{
+    background:#fee2e2;
+    color:#dc2626;
+    padding:14px;
+    border-radius:10px;
+    margin-bottom:20px;
+    border-left:5px solid #ef4444;
+}
+
+/* FORM */
+
+.form-group{
+    margin-bottom:20px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+.form-group input{
+    width:100%;
+    padding:14px;
+    border:1px solid #dbeafe;
+    border-radius:12px;
+    font-size:15px;
+}
+
+.form-group input:focus{
+    outline:none;
+    border-color:#2563eb;
+}
+
+/* BUTTON */
+
+.btn-save{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn-save:hover{
+    transform:translateY(-2px);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .sidebar{
+        width:80px;
+    }
+
+    .sidebar h2{
+        display:none;
+    }
+
+    .sidebar a{
+        justify-content:center;
+        font-size:0;
+    }
+
+    .sidebar a i{
+        font-size:18px;
+    }
+
+    .main{
+        margin-left:80px;
+        padding:20px;
+    }
+
+    .settings-card{
+        max-width:100%;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+    <h2>🛠 Admin</h2>
+
+    <a href="{{ url_for('admin_dashboard') }}">
+        <i class="fa-solid fa-chart-line"></i> Dashboard
+    </a>
+
+    <a href="{{ url_for('admin_users') }}">
+        <i class="fa-solid fa-users"></i> Users
+    </a>
+
+    <a href="{{ url_for('admin_predictions') }}">
+        <i class="fa-solid fa-brain"></i> Predictions
+    </a>
+
+    <a href="{{ url_for('admin_reports_list') }}">
+        <i class="fa-solid fa-file"></i> Reports
+    </a>
+
+    <a href="{{ url_for('admin_settings') }}" class="active">
+        <i class="fa-solid fa-gear"></i> Settings
+    </a>
+
+    <a href="{{ url_for('admin_logout') }}">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+    </a>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+    <h1 class="page-title">⚙️ Admin Settings</h1>
+
+    <div class="settings-card">
+
+        {% if message %}
+        <div class="success-message">
+            {{ message }}
+        </div>
+        {% endif %}
+
+        <form method="POST">
+
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text"
+                       name="username"
+                       value="{{ admin.username }}"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label>New Password (optional)</label>
+                <input type="password"
+                       name="password">
+            </div>
+
+            <div class="form-group">
+                <label>Current Password</label>
+                <input type="password"
+                       name="current_password"
+                       required>
+            </div>
+
+            <button type="submit" class="btn-save">
+                <i class="fa-solid fa-floppy-disk"></i>
+                Update Settings
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

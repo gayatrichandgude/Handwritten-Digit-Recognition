@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Download</title>
+    
+
+    <style>
+        body{
+    margin:0;
+    padding:20px;
+    font-family:'Poppins',sans-serif;
+    background:#f8fafc;
+    color:#1e293b;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar{
+    background:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 35px;
+    border-radius:20px;
+    box-shadow:0 5px 25px rgba(0,0,0,0.08);
+    margin-bottom:120px;
+}
+
+.navbar-title{
+    font-size:32px;
+    font-weight:700;
+    background:linear-gradient(135deg,#2563eb,#8b5cf6,#ec4899);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.back-icon{
+    width:45px;
+    height:45px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:white;
+    color:#2563eb;
+    text-decoration:none;
+    font-size:22px;
+    font-weight:bold;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.back-icon:hover{
+    transform:translateY(-3px);
+}
+
+/* =========================
+   DOWNLOAD CARDS
+========================= */
+
+.container{
+    max-width:1200px;
+    margin:auto;
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+}
+
+.box{
+    position:relative;
+    overflow:hidden;
+
+    padding:25px;
+    border-radius:25px;
+    text-align:center;
+    color:white;
+
+    min-height:220px;
+
+    transition:0.4s ease;
+
+    box-shadow:
+    0 10px 25px rgba(0,0,0,0.12);
+}
+
+.box:hover{
+    transform:translateY(-10px) scale(1.03);
+}
+
+/* Card Colors */
+
+.box:nth-child(1){
+    background:linear-gradient(135deg,#3b82f6,#60a5fa);
+}
+
+.box:nth-child(2){
+    background:linear-gradient(135deg,#8b5cf6,#a78bfa);
+}
+
+.box:nth-child(3){
+    background:linear-gradient(135deg,#10b981,#34d399);
+}
+
+.box:nth-child(4){
+    background:linear-gradient(135deg,#f59e0b,#fbbf24);
+}
+
+.box:nth-child(5){
+    background:linear-gradient(135deg,#ec4899,#f472b6);
+}
+
+/* Shine Effect */
+
+.box::before{
+    content:"";
+    position:absolute;
+    top:-100%;
+    left:-100%;
+    width:200%;
+    height:200%;
+    background:linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.35),
+        transparent
+    );
+    transform:rotate(25deg);
+    transition:0.8s;
+}
+
+.box:hover::before{
+    top:100%;
+    left:100%;
+}
+
+.box h3{
+    margin-bottom:15px;
+    font-size:22px;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+input,
+select{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+
+    border:none;
+    border-radius:12px;
+
+    background:white;
+    color:#1e293b;
+
+    box-sizing:border-box;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+button{
+    width:100%;
+    padding:12px;
+
+    border:none;
+    border-radius:12px;
+
+    background:white;
+    color:#1e293b;
+
+    font-weight:600;
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.04);
+}
+
+form{
+    margin-top:15px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+    .navbar{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .navbar-title{
+        font-size:24px;
+    }
+}
+    </style>
+</head>
+
+<body>
+
+<!-- 🔹 NAVBAR -->
+<div class="navbar">
+    <div class="navbar-left"></div>
+    <div class="navbar-title">⬇ Download Data</div>
+    <div class="navbar-right">
+        <a href="/dashboard" class="back-icon">←</a>
+    </div>
+</div>
+
+<!-- 🔹 WRAP ALL BOXES INSIDE CONTAINER -->
+<div class="container">
+
+    <!-- CSV -->
+    <div class="box">
+        <h3>Download All Data</h3>
+        <a href="/download_csv">
+            <button>Download CSV</button>
+        </a>
+    </div>
+
+    <!-- Date Filter -->
+    <div class="box">
+        <h3>Filter by Date</h3>
+        <form action="/download_filtered" method="POST">
+            <input type="date" name="start" placeholder="Start Date"><br>
+            <input type="date" name="end" placeholder="End Date"><br>
+            <button type="submit">Download</button>
+        </form>
+    </div>
+
+    <!-- Type & Digit Filter -->
+    <div class="box">
+        <h3>Filter by Type / Digit</h3>
+        <form action="/download_filtered_type" method="POST">
+            <select name="type">
+                <option value="all">All Types</option>
+                <option value="draw">Draw</option>
+                <option value="image">Image</option>
+                <option value="voice">Voice</option>
+            </select><br>
+            <input type="number" name="digit" placeholder="Digit (0-9)"><br>
+            <button type="submit">Download</button>
+        </form>
+    </div>
+
+    <!-- Images -->
+    <div class="box">
+        <h3>Download Images</h3>
+        <a href="/download_images">
+            <button>Download ZIP</button>
+        </a>
+    </div>
+
+    <!-- Report -->
+    <div class="box">
+        <h3>Download Report</h3>
+        <a href="/download_report">
+            <button>Download PDF</button>
+        </a>
+    </div>
+
+</div>
+
+</body>
+</html>

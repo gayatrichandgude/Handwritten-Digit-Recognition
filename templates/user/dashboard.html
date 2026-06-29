@@ -1,0 +1,89 @@
+<head>
+    <title>Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+
+
+<body>
+
+<!-- 🔷 NAVBAR -->
+<div class="navbar">
+
+    <div class="logo">
+        AI Digit Recognition Dashboard
+    </div>
+
+    
+
+    <div class="user-dropdown">
+
+        <button>
+            {% if user.profile_pic %}
+                <img src="{{ url_for('static', filename='profile_pics/' ~ user.profile_pic) }}"
+                     style="width:35px;height:35px;border-radius:50%;">
+            {% else %}
+                <img src="{{ url_for('static', filename='profile_pics/default.png') }}"
+                     style="width:35px;height:35px;border-radius:50%;">
+            {% endif %}
+
+            {{ user.name }}
+        </button>
+
+        <div class="user-dropdown-content">
+            <a href="/profile">👤 Profile</a>
+            <a href="/logout">🚪 Logout</a>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- 🔷 MAIN -->
+<div class="main">
+    <h1>Welcome, {{ user.name }} 👋</h1>
+    <p>AI Powered Digit Recognition Dashboard</p>
+</div>
+
+<!-- 🔷 GRID -->
+<div class="grid">
+
+    <div class="card">
+        <h3>🧠 Predict</h3>
+        <p>Upload / Draw / Voice</p>
+        <a href="/predict_page"><button>Open</button></a>
+    </div>
+
+    <div class="card">
+        <h3>📜 History</h3>
+        <a href="/history"><button>View</button></a>
+    </div>
+
+    <div class="card">
+        <h3>📊 Analytics</h3>
+        <a href="/analytics"><button>Open</button></a>
+    </div>
+
+    <div class="card">
+        <h3>🔥 Top Predictions</h3>
+        <a href="/top_predictions"><button>Check</button></a>
+    </div>
+
+    <div class="card">
+        <h3>📄 Reports</h3>
+        <a href="/reports"><button>Open</button></a>
+    </div>
+
+    <div class="card">
+        <h3>⬇ Download Data</h3>
+        <a href="/download"><button>Open</button></a>
+    </div>
+
+</div>
+
+
+</body>
+</html>

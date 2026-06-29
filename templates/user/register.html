@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<form action="/register" method="post" enctype="multipart/form-data" class="form-box">
+
+    <h2><i class="fa-solid fa-user-plus"></i> Create Account</h2>
+    <p class="tagline">Start your AI journey 🚀</p>
+
+    <!-- Profile pic -->
+    <div class="input-box">
+        <input type="file" name="profile_pic" accept="image/*">
+    </div>
+    <!-- NAME -->
+    <div class="input-box">
+        <i class="fa fa-user"></i>
+        <input name="name" type="text" placeholder="Enter Name" required>
+    </div>
+
+    <!-- EMAIL -->
+    <div class="input-box">
+        <i class="fa fa-envelope"></i>
+        <input name="email" type="email" placeholder="Enter Email" required>
+    </div>
+
+    <!-- PASSWORD -->
+    <div class="input-box">
+        <i class="fa fa-lock"></i>
+        <input id="password" name="password" type="password" placeholder="Enter Password" required>
+        <i class="fa fa-eye toggle-pass" onclick="togglePassword('password')"></i>
+    </div>
+
+    <!-- CONFIRM -->
+    <div class="input-box">
+        <i class="fa fa-lock"></i>
+        <input id="confirm_password" name="confirm_password" type="password" placeholder="Confirm Password" required>
+        <i class="fa fa-eye toggle-pass" onclick="togglePassword('confirm_password')"></i>
+    </div>
+
+    <button type="submit">Register</button>
+
+    <p class="link-text">
+        Already have an account? <a href="/login_page">Login</a>
+    </p>
+    <!-- 🔙 Back to Home -->
+    <p class="link-text">
+        <a href="{{ url_for('home') }}">⬅ Back to Home</a>
+    </p>
+</form>
+
+<!-- Flash messages (top-right corner) -->
+<div id="flash-messages">
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% for category, message in messages %}
+    <div class="flash {{ category }}">
+        {{ message }}
+    </div>
+  {% endfor %}
+{% endwith %}
+</div>
+
+<script>
+setTimeout(() => {
+    const flashes = document.querySelectorAll('#flash-messages .flash');
+    flashes.forEach(f => f.style.display = 'none');
+}, 5000); // hides after 5 seconds
+</script>
+<script>
+function togglePassword(id) {
+    var x = document.getElementById(id);
+    x.type = (x.type === "password") ? "text" : "password";
+}
+</script>
+
+</body>
+</html>
